@@ -1,0 +1,62 @@
+<div class="audio-controls">
+  <!-- Toggle Button -->
+  <button class="audio-toggle" (click)="toggleExpand()" [class.expanded]="isExpanded">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+    </svg>
+    <span>Audio</span>
+  </button>
+
+  <!-- Audio Panel -->
+  <div class="audio-panel" [class.show]="isExpanded">
+    <!-- Flip Sound Control -->
+    <div class="audio-section">
+      <div class="section-header">
+        <span class="section-title">🔔 Flip Sound</span>
+        <button class="toggle-btn" [class.active]="audioService.flipEnabled()" (click)="audioService.toggleFlipSound()">
+          {{ audioService.flipEnabled() ? 'ON' : 'OFF' }}
+        </button>
+      </div>
+
+      <div class="volume-control" *ngIf="audioService.flipEnabled()">
+        <span class="volume-label">Volume</span>
+        <input type="range" min="0" max="1" step="0.01" [value]="audioService.flipVolume()"
+          (input)="onFlipVolumeChange($event)" class="volume-slider">
+        <span class="volume-value">{{ (audioService.flipVolume() * 100).toFixed(0) }}%</span>
+      </div>
+    </div>
+
+    <!-- White Noise Section -->
+    <div class="audio-section">
+      <div class="section-header">
+        <span class="section-title">🎵 White Noise</span>
+      </div>
+
+      <div class="white-noise-list">
+        <div *ngFor="let noise of audioService.whiteNoises()" class="white-noise-item" [class.active]="noise.enabled">
+
+          <div class="noise-header">
+            <div class="noise-info">
+              <span class="noise-icon">{{ noise.icon }}</span>
+              <span class="noise-name">{{ noise.name }}</span>
+            </div>
+            <button class="toggle-btn small" [class.active]="noise.enabled"
+              (click)="audioService.toggleWhiteNoise(noise.id)">
+              {{ noise.enabled ? 'ON' : 'OFF' }}
+            </button>
+          </div>
+
+          <div class="volume-control" *ngIf="noise.enabled">
+            <span class="volume-label">Volume</span>
+            <input type="range" min="0" max="1" step="0.01" [value]="noise.volume"
+              (input)="onWhiteNoiseVolumeChange(noise.id, $event)" class="volume-slider">
+            <span class="volume-value">{{ (noise.volume * 100).toFixed(0) }}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

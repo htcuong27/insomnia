@@ -1,0 +1,114 @@
+.flip-card {
+  @apply relative w-32 h-40 bg-surface rounded-xl text-8xl font-bold text-text flex justify-center overflow-visible shadow-2xl border border-white/5;
+
+  /* Gradient background for depth */
+  background: linear-gradient(to bottom, #27272a 50%, #18181b 50%);
+  perspective: 600px;
+
+  .top,
+  .bottom,
+  .flip-top,
+  .flip-bottom {
+    @apply absolute w-full h-full flex justify-center items-center overflow-hidden;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .top {
+    @apply items-end pb-[1.5rem];
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    background: linear-gradient(to bottom, #2a2a2d 0%, #27272a 100%);
+    z-index: 3;
+  }
+
+  .bottom {
+    @apply items-start pt-[2.5rem];
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+    background: linear-gradient(to bottom, #18181b 0%, #15151a 100%);
+    z-index: 2;
+  }
+
+  /* Flip animation elements */
+  .flip-top,
+  .flip-bottom {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .flip-top {
+    @apply items-end pb-[1.5rem];
+    clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    background: linear-gradient(to bottom, #2a2a2d 0%, #27272a 100%);
+    transform-origin: center top;
+    transform-style: preserve-3d;
+    z-index: 4;
+  }
+
+  .flip-bottom {
+    @apply items-start pt-[2.5rem];
+    clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0% 100%);
+    background: linear-gradient(to bottom, #18181b 0%, #15151a 100%);
+    transform-origin: center top;
+    transform-style: preserve-3d;
+    z-index: 3;
+  }
+
+  /* Horizontal line */
+  &::after {
+    content: '';
+    @apply absolute top-1/2 left-0 w-full h-[2px] bg-black/40 z-10;
+    transform: translateZ(1px);
+  }
+
+  /* Flip animation */
+  &.flipping {
+    .flip-top {
+      opacity: 1;
+      animation: flipTop 0.5s cubic-bezier(0.5, 0.0, 0.5, 1);
+    }
+
+    .flip-bottom {
+      opacity: 1;
+      animation: flipTop 0.5s cubic-bezier(0.5, 0.0, 0.5, 1);
+    }
+  }
+}
+
+@keyframes flipTop {
+  0% {
+    transform: rotateX(90deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+}
+
+@keyframes flipBottom {
+  0% {
+    transform: rotateX(0deg);
+    filter: brightness(1);
+  }
+  100% {
+    transform: rotateX(90deg);
+    filter: brightness(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .flip-card {
+    @apply w-20 h-28 text-6xl;
+
+    .top,
+    .flip-top {
+      @apply pb-[1.75rem];
+    }
+
+    .bottom,
+    .flip-bottom {
+      @apply pt-[1.75rem];
+    }
+  }
+}

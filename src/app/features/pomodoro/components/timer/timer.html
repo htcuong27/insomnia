@@ -1,0 +1,63 @@
+<div
+  class="flex flex-col items-center gap-6 p-8 bg-surface/60 backdrop-blur-xl border border-white/5 rounded-[2rem] w-full transition-all duration-300 hover:border-white/10 hover:shadow-2xl">
+  <!-- Mode Selector -->
+  <div class="flex flex-col items-center gap-2">
+    <div class="flex gap-3 p-2 bg-black/20 rounded-full">
+      <button class="w-2 h-2 rounded-full bg-text-muted/50 transition-all duration-300 hover:opacity-80 hover:scale-125"
+        [class.bg-primary]="currentMode() === 'focus'" [class.scale-125]="currentMode() === 'focus'"
+        [class.shadow-[0_0_10px_#6366f1]]="currentMode() === 'focus'" [class.opacity-100]="currentMode() === 'focus'"
+        (click)="setMode('focus')" title="Focus (25m)">
+      </button>
+      <button class="w-2 h-2 rounded-full bg-text-muted/50 transition-all duration-300 hover:opacity-80 hover:scale-125"
+        [class.bg-primary]="currentMode() === 'shortBreak'" [class.scale-125]="currentMode() === 'shortBreak'"
+        [class.shadow-[0_0_10px_#6366f1]]="currentMode() === 'shortBreak'"
+        [class.opacity-100]="currentMode() === 'shortBreak'" (click)="setMode('shortBreak')" title="Short Break (5m)">
+      </button>
+      <button class="w-2 h-2 rounded-full bg-text-muted/50 transition-all duration-300 hover:opacity-80 hover:scale-125"
+        [class.bg-primary]="currentMode() === 'longBreak'" [class.scale-125]="currentMode() === 'longBreak'"
+        [class.shadow-[0_0_10px_#6366f1]]="currentMode() === 'longBreak'"
+        [class.opacity-100]="currentMode() === 'longBreak'" (click)="setMode('longBreak')" title="Long Break (15m)">
+      </button>
+    </div>
+    <span class="text-sm text-text-muted font-medium tracking-widest uppercase">{{ modes[currentMode()].label
+      }}</span>
+  </div>
+
+  <!-- Flip Clock Display -->
+  <div class="flex gap-4 items-center">
+    <!-- Minutes -->
+    <div class="flip-card" [class.flipping]="minutesFlipping()">
+      <div class="top">{{ prevMinutes() }}</div>
+      <div class="bottom">{{ prevMinutes() }}</div>
+      <div class="flip-top">{{ minutes() }}</div>
+      <div class="flip-bottom">{{ minutes() }}</div>
+    </div>
+
+    <span class="text-6xl font-thin text-text-muted/50 pb-4">:</span>
+
+    <!-- Seconds -->
+    <div class="flip-card" [class.flipping]="secondsFlipping()">
+      <div class="top">{{ prevSeconds() }}</div>
+      <div class="bottom">{{ prevSeconds() }}</div>
+      <div class="flip-top">{{ seconds() }}</div>
+      <div class="flip-bottom">{{ seconds() }}</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="flex items-center gap-4">
+    <button
+      class="px-10 py-3 bg-surface-hover text-text rounded-full font-semibold tracking-widest transition-all duration-200 border border-transparent hover:bg-text hover:text-bg hover:-translate-y-px active:translate-y-0"
+      (click)="toggleTimer()">
+      {{ isRunning() ? 'PAUSE' : 'START' }}
+    </button>
+    <button class="p-3 rounded-full text-text-muted transition-all duration-200 hover:bg-surface-hover hover:text-text"
+      (click)="resetTimer()" title="Reset">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12" />
+        <path d="M3 3v9h9" />
+      </svg>
+    </button>
+  </div>
+</div>
