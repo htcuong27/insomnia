@@ -7,7 +7,7 @@
 /bazel-out
 
 # Node
-/node_modules
+/frontend/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -29,15 +29,25 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-__screenshots__/
+/frontend/.angular/cache/
+/frontend/.sass-cache
+/frontend/connect.lock
+/frontend/coverage
+/frontend/libpeerconnection.log
+/frontend/testem.log
+/frontend/typings
+/frontend/__screenshots__/
 
 # System files
 .DS_Store
 Thumbs.db
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+backend/venv/
+backend/.venv/

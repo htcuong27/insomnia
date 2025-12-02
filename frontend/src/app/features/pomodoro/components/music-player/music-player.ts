@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, model } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -10,7 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrl: './music-player.scss'
 })
 export class MusicPlayerComponent {
-  isOpen = signal(false);
+  isOpen = model<'soundMixer' | 'musicPlayer' | null>(null);
   videoUrl: SafeResourceUrl;
 
   // Lofi Girl stream
@@ -23,6 +23,6 @@ export class MusicPlayerComponent {
   }
 
   togglePlayer() {
-    this.isOpen.update(v => !v);
+    this.isOpen.update(v => v === 'musicPlayer' ? null : 'musicPlayer');
   }
 }

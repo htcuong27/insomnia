@@ -7,6 +7,10 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login').then(m => m.LoginComponent)
+  },
+  {
     path: 'pomodoro',
     loadComponent: () => import('./features/pomodoro/pomodoro').then(m => m.PomodoroComponent)
   },

@@ -25,7 +25,8 @@ export class AudioService {
       id: 'rain',
       name: 'Rain',
       icon: '🌧️',
-      url: 'https://cdn.pixabay.com/download/audio/2022/05/13/audio_257112e3bb.mp3',
+      // url: 'https://cdn.pixabay.com/download/audio/2025/04/05/audio_750cf12f8b.mp3?filename=relaxing-heavy-rain-sounds-on-roof-perfect-for-sleep-focus-323383.mp3',
+      url: 'blob:https://elevenlabs.io/852c52b2-1472-486b-9da4-2df3db01cb00',
       volume: 0.5,
       enabled: false
     },
@@ -75,7 +76,9 @@ export class AudioService {
   private initializeWhiteNoises() {
     const noises = this.whiteNoises();
     noises.forEach(noise => {
-      noise.audio = new Audio(noise.url);
+      // noise.audio = new Audio(noise.url);
+      noise.audio = new Audio();
+      noise.audio.src = noise.url;
       noise.audio.loop = true;
       noise.audio.volume = noise.volume;
     });
@@ -108,6 +111,8 @@ export class AudioService {
   toggleWhiteNoise(id: string) {
     const noises = this.whiteNoises();
     const noise = noises.find(n => n.id === id);
+
+    console.log({ noise })
 
     if (noise && noise.audio) {
       noise.enabled = !noise.enabled;
