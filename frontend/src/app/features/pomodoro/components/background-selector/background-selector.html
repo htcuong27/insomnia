@@ -1,0 +1,99 @@
+<div class="relative">
+    <button
+        class="w-12 h-12 rounded-full bg-white/5 text-text-muted flex items-center justify-center transition-all duration-200 border border-transparent hover:bg-surface-hover hover:text-text"
+        [class.bg-primary]="isOpen() === 'backgroundSelector'" [class.text-bg]="isOpen() === 'backgroundSelector'"
+        [class.shadow-[0_0_15px_rgba(99,102,241,0.3)]]="isOpen() === 'backgroundSelector'" (click)="toggleSelector()"
+        title="Backgrounds">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+    </button>
+
+    @if (isOpen() === 'backgroundSelector') {
+    <div
+        class="absolute bottom-full left-0 mb-4 bg-surface/90 backdrop-blur-md border border-white/10 rounded-xl p-4 flex flex-col gap-4 min-w-[280px] animate-[slideUp_0.2s_ease-out] shadow-lg">
+
+        <!-- Real-time Toggle -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+            <div class="flex flex-col">
+                <span class="text-sm font-medium">Live Weather</span>
+                <span class="text-xs text-text-muted">Sync with your location</span>
+            </div>
+            <button class="w-12 h-6 rounded-full transition-colors relative"
+                [class.bg-primary]="backgroundService.isRealTimeMode()"
+                [class.bg-white-10]="!backgroundService.isRealTimeMode()"
+                (click)="backgroundService.toggleRealTimeMode()">
+                <div class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform"
+                    [class.translate-x-6]="backgroundService.isRealTimeMode()">
+                </div>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-white/10 pb-2">
+            <button class="flex-1 pb-2 text-sm font-medium transition-colors relative"
+                [class.text-primary]="activeTab === 'effects'" [class.text-text-muted]="activeTab !== 'effects'"
+                (click)="setTab('effects')">
+                Effects
+                @if (activeTab === 'effects') {
+                <div class="absolute bottom-[-9px] left-0 w-full h-0.5 bg-primary"></div>
+                }
+            </button>
+            <button class="flex-1 pb-2 text-sm font-medium transition-colors relative"
+                [class.text-primary]="activeTab === 'minimal'" [class.text-text-muted]="activeTab !== 'minimal'"
+                (click)="setTab('minimal')">
+                Minimal
+                @if (activeTab === 'minimal') {
+                <div class="absolute bottom-[-9px] left-0 w-full h-0.5 bg-primary"></div>
+                }
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="grid grid-cols-2 gap-2">
+            @if (activeTab === 'effects') {
+            <button
+                class="p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left flex flex-col gap-2 border border-transparent"
+                [class.border-primary]="backgroundService.activeBackground() === 'rain'"
+                (click)="setBackground('rain')">
+                <span class="text-2xl">🌧️</span>
+                <span class="text-xs font-medium">Rain</span>
+            </button>
+            <button
+                class="p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left flex flex-col gap-2 border border-transparent"
+                [class.border-primary]="backgroundService.activeBackground() === 'snow'"
+                (click)="setBackground('snow')">
+                <span class="text-2xl">❄️</span>
+                <span class="text-xs font-medium">Snow</span>
+            </button>
+            <button
+                class="p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left flex flex-col gap-2 border border-transparent"
+                [class.border-primary]="backgroundService.activeBackground() === 'leaves'"
+                (click)="setBackground('leaves')">
+                <span class="text-2xl">🍂</span>
+                <span class="text-xs font-medium">Leaves</span>
+            </button>
+            <button
+                class="p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left flex flex-col gap-2 border border-transparent"
+                [class.border-primary]="backgroundService.activeBackground() === 'stars'"
+                (click)="setBackground('stars')">
+                <span class="text-2xl">✨</span>
+                <span class="text-xs font-medium">Stars</span>
+            </button>
+            } @else {
+            <button
+                class="p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-left flex flex-col gap-2 border border-transparent"
+                [class.border-primary]="backgroundService.activeBackground() === 'particles'"
+                (click)="setBackground('particles')">
+                <span class="text-2xl">🔮</span>
+                <span class="text-xs font-medium">Particles</span>
+            </button>
+            }
+        </div>
+
+    </div>
+    }
+</div>

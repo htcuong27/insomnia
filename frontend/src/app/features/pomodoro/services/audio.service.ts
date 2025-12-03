@@ -26,7 +26,7 @@ export class AudioService {
       name: 'Rain',
       icon: '🌧️',
       // url: 'https://cdn.pixabay.com/download/audio/2025/04/05/audio_750cf12f8b.mp3?filename=relaxing-heavy-rain-sounds-on-roof-perfect-for-sleep-focus-323383.mp3',
-      url: 'blob:https://elevenlabs.io/852c52b2-1472-486b-9da4-2df3db01cb00',
+      url: 'https://cdn.pixabay.com/download/audio/2022/04/16/audio_520eb6a5cc.mp3',
       volume: 0.5,
       enabled: false
     },
@@ -34,7 +34,7 @@ export class AudioService {
       id: 'ocean',
       name: 'Ocean',
       icon: '🌊',
-      url: 'https://cdn.pixabay.com/download/audio/2022/06/07/audio_c2c6c0c559.mp3',
+      url: 'https://cdn.pixabay.com/download/audio/2022/04/16/audio_520eb6a5cc.mp3',
       volume: 0.5,
       enabled: false
     },
@@ -76,9 +76,7 @@ export class AudioService {
   private initializeWhiteNoises() {
     const noises = this.whiteNoises();
     noises.forEach(noise => {
-      // noise.audio = new Audio(noise.url);
-      noise.audio = new Audio();
-      noise.audio.src = noise.url;
+      noise.audio = new Audio(noise.url);
       noise.audio.loop = true;
       noise.audio.volume = noise.volume;
     });

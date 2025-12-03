@@ -20,7 +20,7 @@ interface Sound {
   styleUrl: './sound-mixer.scss'
 })
 export class SoundMixerComponent {
-  isOpen = model<'soundMixer' | 'musicPlayer' | null>(null);
+  isOpen = model<'soundMixer' | 'musicPlayer' | 'backgroundSelector' | null>(null);
   audioService = inject(AudioService);
 
   toggleMixer() {

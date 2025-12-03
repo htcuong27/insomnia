@@ -10,7 +10,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrl: './music-player.scss'
 })
 export class MusicPlayerComponent {
-  isOpen = model<'soundMixer' | 'musicPlayer' | null>(null);
+  isOpen = model<'soundMixer' | 'musicPlayer' | 'backgroundSelector' | null>(null);
   videoUrl: SafeResourceUrl;
 
   // Lofi Girl stream
