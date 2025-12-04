@@ -1,0 +1,51 @@
+<div class="min-h-screen py-32 px-4 bg-white dark:bg-transparent">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-center mb-16 text-gray-900 dark:text-white">Blog
+        </h1>
+
+        @if (blogs.length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @for (blog of blogs; track blog.id) {
+            <article
+                class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow group border border-gray-100 dark:border-gray-800">
+                <a [routerLink]="['/blog', blog.slug]" class="block">
+                    @if (blog.coverImage) {
+                    <img [src]="blog.coverImage" [alt]="blog.title"
+                        class="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    } @else {
+                    <div class="w-full h-48 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <span class="text-4xl grayscale">📝</span>
+                    </div>
+                    }
+
+                    <div class="p-6">
+                        <h2
+                            class="text-xl font-bold mb-2 text-gray-900 dark:text-white group-hover:underline decoration-1 underline-offset-4">
+                            {{ blog.title }}
+                        </h2>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">{{ blog.excerpt }}</p>
+
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            @for (tag of blog.tags.slice(0, 3); track tag) {
+                            <span
+                                class="px-2 py-1 bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-500 dark:text-gray-400 rounded-full text-xs font-medium">
+                                #{{ tag }}
+                            </span>
+                            }
+                        </div>
+
+                        <div
+                            class="flex items-center justify-between text-sm text-gray-400 dark:text-gray-500 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <span>{{ blog.viewCount || 0 }} views</span>
+                            <span>{{ formatDate(blog.createdAt) }}</span>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            }
+        </div>
+        } @else {
+        <p class="text-center text-gray-600 dark:text-gray-400">No blog posts yet.</p>
+        }
+    </div>
+</div>

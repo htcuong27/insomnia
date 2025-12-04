@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  name        String
+  picture     String?
+  firebaseUid String   @unique
+  role        UserRole @default(USER)
+  createdAt   DateTime @default(now())
+
+  blogs            Blog[]
+  comments         Comment[]
+  pomodoroSessions PomodoroSession[]
+}
+
+enum UserRole {
+  GUEST
+  USER
+  ADMIN
+}
+
+model Project {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  description  String
+  technologies String[]
+  githubUrl    String?
+  liveUrl      String?
+  imageUrl     String?
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+}
+
+model Blog {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  excerpt    String
+  slug       String    @unique
+  coverImage String?
+  tags       String[]
+  published  Boolean   @default(false)
+  viewCount  Int       @default(0)
+  authorId   String    @db.ObjectId
+  author     User      @relation(fields: [authorId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  comments   Comment[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  blogId    String   @db.ObjectId
+  blog      Blog     @relation(fields: [blogId], references: [id])
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  content   String
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Contact {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String
+  message   String
+  replied   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PomodoroSession {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String       @db.ObjectId
+  user        User         @relation(fields: [userId], references: [id])
+  duration    Int // in seconds
+  type        PomodoroType
+  completedAt DateTime     @default(now())
+}
+
+enum PomodoroType {
+  WORK
+  SHORT_BREAK
+  LONG_BREAK
+}
+
+model Resume {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  pdfUrl     String
+  imageUrl   String?
+  uploadedAt DateTime @default(now())
+}

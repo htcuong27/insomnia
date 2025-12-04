@@ -1,0 +1,77 @@
+<div class="min-h-screen py-32 px-4 bg-white dark:bg-gray-900">
+    <article class="max-w-3xl mx-auto">
+        @if (blog) {
+        <div class="bg-white dark:bg-gray-900">
+            <a routerLink="/blog"
+                class="inline-flex items-center space-x-2 mb-8 text-gray-500 hover:text-black dark:hover:text-white transition-colors group">
+                <span class="group-hover:-translate-x-1 transition-transform">←</span>
+                <span>Back to Blog</span>
+            </a>
+
+            @if(blog.coverImage) {
+            <div class="rounded-xl overflow-hidden mb-12 shadow-sm">
+                <img [src]="blog.coverImage" [alt]="blog.title" class="w-full h-auto object-cover">
+            </div>
+            }
+
+            <div class="mb-8">
+                <div class="flex flex-wrap gap-2 mb-6">
+                    @for (tag of blog.tags; track tag) {
+                    <span
+                        class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded-full text-xs font-medium">
+                        #{{ tag }}
+                    </span>
+                    }
+                </div>
+
+                <h1
+                    class="text-4xl md:text-5xl font-display font-bold mb-6 text-gray-900 dark:text-white leading-tight">
+                    {{ blog.title }}</h1>
+
+                <div
+                    class="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800 pb-8">
+                    @if (blog.author) {
+                    <div class="flex items-center space-x-2">
+                        @if (blog.author.picture) {
+                        <img [src]="blog.author.picture" [alt]="blog.author.name" class="w-8 h-8 rounded-full">
+                        }
+                        <span class="font-medium text-gray-900 dark:text-white">{{ blog.author.name }}</span>
+                    </div>
+                    }
+                    <span>•</span>
+                    <span>{{ formatDate(blog.createdAt) }}</span>
+                    <span>•</span>
+                    <span>{{ blog.viewCount || 0 }} views</span>
+                </div>
+            </div>
+
+            <div
+                class="prose prose-lg dark:prose-invert max-w-none mb-16 prose-headings:font-display prose-a:text-black dark:prose-a:text-white prose-img:rounded-xl">
+                <div [innerHTML]="blog.content"></div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="border-t border-gray-100 dark:border-gray-800 pt-12">
+                <h2 class="text-2xl font-display font-bold mb-8 text-gray-900 dark:text-white">Comments ({{
+                    blog.comments?.length || 0 }})</h2>
+                @for (comment of blog.comments; track comment.id) {
+                <div class="mb-8 pb-8 border-b border-gray-50 dark:border-gray-800 last:border-0">
+                    <div class="flex items-center space-x-3 mb-3">
+                        @if (comment.user.picture) {
+                        <img [src]="comment.user.picture" [alt]="comment.user.name" class="w-8 h-8 rounded-full">
+                        }
+                        <div>
+                            <div class="font-semibold text-gray-900 dark:text-white">{{ comment.user.name }}</div>
+                            <div class="text-xs text-gray-500">{{ formatDate(comment.createdAt) }}</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 pl-11">{{ comment.content }}</p>
+                </div>
+                }
+            </div>
+        </div>
+        } @else {
+        <p class="text-center text-gray-500">Loading...</p>
+        }
+    </article>
+</div>

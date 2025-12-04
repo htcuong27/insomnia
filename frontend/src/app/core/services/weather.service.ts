@@ -1,6 +1,7 @@
-import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment.development';
 
 interface WeatherResponse {
     current: {
@@ -13,13 +14,12 @@ interface WeatherResponse {
     providedIn: 'root'
 })
 export class WeatherService {
-    weather = signal<{ isDay: boolean; isRaining: boolean } | null>(null);
-
-    constructor(private http: HttpClient) { }
+    private http = inject(HttpClient);
+    private apiUrl = environment.weatherApiUrl;
+    weather = signal({ isDay: false, isRaining: false });
 
     fetchWeather(lat: number, lon: number) {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weather_code,is_day`;
-
+        const url = this.apiUrl.replace('{lat}', lat.toString()).replace('{lon}', lon.toString());
         return this.http.get<WeatherResponse>(url).pipe(
             map(response => {
                 const isDay = response.current.is_day === 1;

@@ -4,9 +4,10 @@
 </div>
 
 <div class="fixed bottom-8 left-8 flex gap-4 z-20 max-md:static max-md:mt-12 max-md:justify-center">
-  <app-sound-mixer [(isOpen)]="opened"></app-sound-mixer>
-  <app-music-player [(isOpen)]="opened"></app-music-player>
-  <app-background-selector [(isOpen)]="opened"></app-background-selector>
+  <app-sound-mixer [(isOpen)]="opened" (clickOutside)="closeIfOpen('soundMixer')"></app-sound-mixer>
+  <app-music-player [(isOpen)]="opened" (clickOutside)="closeIfOpen('musicPlayer')"></app-music-player>
+  <app-background-selector [(isOpen)]="opened"
+    (clickOutside)="closeIfOpen('backgroundSelector')"></app-background-selector>
 </div>
 
 <app-audio-controls></app-audio-controls>

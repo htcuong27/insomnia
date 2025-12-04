@@ -2,12 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global Styles Override */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@layer base {
+    :root {
+        --color-bg: #fafafa;
+        --color-surface: #ffffff;
+        --color-text: #18181b;
+        --color-text-muted: #71717a;
+        --color-border: #e4e4e7;
+    }
+
+    .dark {
+        --color-bg: #09090b;
+        --color-surface: #18181b;
+        --color-text: #fafafa;
+        --color-text-muted: #a1a1aa;
+        --color-border: #27272a;
+    }
+}
 
 body {
-    @apply bg-bg text-text font-sans min-h-screen flex flex-col;
+    @apply bg-bg text-[var(--color-text)] font-sans min-h-screen flex flex-col;
     -webkit-font-smoothing: antialiased;
+
 }
 
 /* Scrollbar */
@@ -20,9 +36,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-surface-hover rounded-full;
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-muted;
+    @apply bg-gray-400 dark:bg-gray-600;
 }

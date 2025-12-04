@@ -13,11 +13,7 @@ trap cleanup SIGINT SIGTERM
 echo "Starting Backend..."
 (
     cd backend
-    # Activate virtual environment if it exists
-    if [ -d "venv" ]; then
-        source venv/bin/activate
-    fi
-    uvicorn main:app --reload
+    npm start
 ) &
 
 echo "Starting Frontend..."

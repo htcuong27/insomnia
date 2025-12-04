@@ -2,19 +2,24 @@
   @apply fixed bottom-8 right-8 z-50;
 
   .audio-toggle {
-    @apply flex items-center gap-2 px-6 py-3 bg-surface/80 backdrop-blur-xl border border-white/10 rounded-full text-text font-medium transition-all duration-300 hover:bg-surface hover:border-white/20 hover:shadow-xl;
-    
+    @apply flex items-center gap-2 px-6 py-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-full text-gray-900 dark:text-white font-medium transition-all duration-300 hover:bg-white dark:hover:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 hover:shadow-xl;
+
     svg {
       @apply w-5 h-5;
     }
 
     &.expanded {
-      @apply bg-primary text-white border-primary shadow-[0_0_20px_rgba(99,102,241,0.4)];
+      @apply bg-black dark:bg-white text-white dark:text-black border-black dark:border-white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark &.expanded {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
   }
 
   .audio-panel {
-    @apply absolute bottom-16 right-0 w-96 bg-surface/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 origin-bottom-right;
+    @apply absolute bottom-16 right-0 w-96 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden transition-all duration-300 origin-bottom-right;
     transform: scale(0);
     opacity: 0;
     pointer-events: none;
@@ -27,7 +32,7 @@
   }
 
   .audio-section {
-    @apply p-6 border-b border-white/5;
+    @apply p-6 border-b border-gray-100 dark:border-gray-800;
 
     &:last-child {
       @apply border-b-0;
@@ -39,15 +44,20 @@
   }
 
   .section-title {
-    @apply text-lg font-semibold text-text;
+    @apply text-lg font-semibold text-gray-900 dark:text-white;
   }
 
   .toggle-btn {
     @apply px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 border-2;
-    @apply bg-surface-hover text-text-muted border-white/10;
+    @apply bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700;
 
     &.active {
-      @apply bg-primary text-white border-primary shadow-[0_0_10px_rgba(99,102,241,0.3)];
+      @apply bg-black dark:bg-white text-white dark:text-black border-black dark:border-white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark &.active {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     }
 
     &.small {
@@ -64,24 +74,24 @@
   }
 
   .volume-label {
-    @apply text-sm text-text-muted font-medium min-w-[60px];
+    @apply text-sm text-gray-600 dark:text-gray-400 font-medium min-w-[60px];
   }
 
   .volume-slider {
     @apply flex-1 h-2 rounded-full appearance-none cursor-pointer;
-    background: linear-gradient(to right, #3b3b3f 0%, #6366f1 0%);
-    
+    background: linear-gradient(to right, #e5e7eb 0%, #18181b 0%);
+
     &::-webkit-slider-thumb {
-      @apply appearance-none w-4 h-4 rounded-full bg-white shadow-lg cursor-pointer transition-transform duration-150;
-      
+      @apply appearance-none w-4 h-4 rounded-full bg-black dark:bg-white shadow-lg cursor-pointer transition-transform duration-150;
+
       &:hover {
         @apply scale-125;
       }
     }
 
     &::-moz-range-thumb {
-      @apply w-4 h-4 rounded-full bg-white shadow-lg cursor-pointer border-0 transition-transform duration-150;
-      
+      @apply w-4 h-4 rounded-full bg-black dark:bg-white shadow-lg cursor-pointer border-0 transition-transform duration-150;
+
       &:hover {
         @apply scale-125;
       }
@@ -89,7 +99,7 @@
   }
 
   .volume-value {
-    @apply text-sm text-text font-semibold min-w-[45px] text-right;
+    @apply text-sm text-gray-900 dark:text-white font-semibold min-w-[45px] text-right;
   }
 
   .white-noise-list {
@@ -97,10 +107,10 @@
   }
 
   .white-noise-item {
-    @apply p-4 rounded-xl bg-black/20 border border-white/5 transition-all duration-300;
+    @apply p-4 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-all duration-300;
 
     &.active {
-      @apply border-primary/30 bg-primary/5;
+      @apply border-black dark:border-white bg-gray-100 dark:bg-gray-700;
     }
   }
 
@@ -117,7 +127,7 @@
   }
 
   .noise-name {
-    @apply text-base font-medium text-text;
+    @apply text-base font-medium text-gray-900 dark:text-white;
   }
 }
 

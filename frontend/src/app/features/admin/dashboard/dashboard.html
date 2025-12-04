@@ -1,0 +1,93 @@
+<div class="max-w-7xl mx-auto">
+    <h2 class="text-2xl font-bold mb-8">System Health</h2>
+
+    @if (dashboardData) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Backend Status -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold">Backend API</h3>
+                <span [class]="dashboardData.services.database.connected ? 'text-green-500' : 'text-red-500'">
+                    {{ dashboardData.services.database.connected ? '●' : '●' }}
+                </span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ dashboardData.services.database.connected ? 'Connected' : 'Disconnected' }}
+            </p>
+        </div>
+
+        <!-- Email Service -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold">Email Service</h3>
+                <span [class]="dashboardData.services.email.connected ? 'text-green-500' : 'text-red-500'">
+                    {{ dashboardData.services.email.connected ? '●' : '●' }}
+                </span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ dashboardData.services.email.adminEmail }}
+            </p>
+        </div>
+
+        <!-- Firebase -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold">Firebase Auth</h3>
+                <span class="text-green-500">●</span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ dashboardData.services.firebase.projectId }}
+            </p>
+        </div>
+
+        <!-- Cloudinary -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold">Cloudinary</h3>
+                <span [class]="dashboardData.services.cloudinary.connected ? 'text-green-500' : 'text-red-500'">
+                    {{ dashboardData.services.cloudinary.connected ? '●' : '●' }}
+                </span>
+            </div>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ dashboardData.services.cloudinary.cloudName || 'Not configured' }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <h2 class="text-2xl font-bold mb-6">Statistics</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="bg-primary-50 dark:bg-primary-900 rounded-lg p-6">
+            <p class="text-sm text-primary-600 dark:text-primary-300 mb-1">Projects</p>
+            <p class="text-3xl font-bold">{{ dashboardData.stats.projects }}</p>
+        </div>
+        <div class="bg-purple-50 dark:bg-purple-900 rounded-lg p-6">
+            <p class="text-sm text-purple-600 dark:text-purple-300 mb-1">Blog Posts</p>
+            <p class="text-3xl font-bold">{{ dashboardData.stats.blogs }}</p>
+        </div>
+        <div class="bg-green-50 dark:bg-green-900 rounded-lg p-6">
+            <p class="text-sm text-green-600 dark:text-green-300 mb-1">Users</p>
+            <p class="text-3xl font-bold">{{ dashboardData.stats.users }}</p>
+        </div>
+        <div class="bg-yellow-50 dark:bg-yellow-900 rounded-lg p-6">
+            <p class="text-sm text-yellow-600 dark:text-yellow-300 mb-1">Contacts</p>
+            <p class="text-3xl font-bold">{{ dashboardData.stats.contacts }}</p>
+        </div>
+    </div>
+
+    <!-- Pending Items -->
+    <h2 class="text-2xl font-bold mb-6">Pending Actions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <h3 class="font-semibold mb-2">Pending Comments</h3>
+            <p class="text-3xl font-bold text-orange-600">{{ dashboardData.pending.comments }}</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
+            <h3 class="font-semibold mb-2">Unread Contacts</h3>
+            <p class="text-3xl font-bold text-orange-600">{{ dashboardData.pending.contacts }}</p>
+        </div>
+    </div>
+    } @else {
+    <p>Loading dashboard...</p>
+    }
+</div>

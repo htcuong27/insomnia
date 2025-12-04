@@ -1,0 +1,30 @@
+# Development configuration (for localhost)
+localhost {
+    # Reverse proxy API requests to backend
+    handle /api/* {
+        reverse_proxy backend:3000
+    }
+
+    # Serve frontend
+    handle {
+        reverse_proxy frontend:80
+    }
+}
+
+# Production configuration (replace with your domain)
+# yourdomain.com {
+#     # Enable automatic HTTPS
+#     tls {
+#         email admin@yourdomain.com
+#     }
+#
+#     # Reverse proxy API requests to backend
+#     handle /api/* {
+#         reverse_proxy backend:3000
+#     }
+#
+#     # Serve frontend
+#     handle {
+#         reverse_proxy frontend:80
+#     }
+# }

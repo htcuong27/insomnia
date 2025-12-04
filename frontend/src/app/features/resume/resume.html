@@ -1,0 +1,35 @@
+<div class="min-h-screen py-32 px-4 bg-white dark:bg-transparent">
+    <div class=" max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-12">
+            <button (click)="goBack()"
+                class="inline-flex items-center space-x-2 text-gray-500 hover:text-black dark:hover:text-white transition-colors group">
+                <span class="group-hover:-translate-x-1 transition-transform">←</span>
+                <span>Back</span>
+            </button>
+
+            @if (resume?.pdfUrl) {
+            <a [href]="resume.pdfUrl" download
+                class="inline-flex items-center space-x-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:opacity-90 transition-opacity">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                <span>Download CV</span>
+            </a>
+            }
+        </div>
+
+        @if (resume?.imageUrl) {
+        <div
+            class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm">
+            <img [src]="resume.imageUrl" alt="Resume" class="w-full">
+        </div>
+        } @else {
+        <div
+            class="bg-white dark:bg-transparent backdrop-blur-md border border-gray-200 dark:border-gray-800 rounded-2xl p-16 text-center">
+            <p class="text-gray-500 dark:text-gray-400">Resume not available</p>
+        </div>
+        }
+    </div>
+</div>

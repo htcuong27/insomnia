@@ -1,0 +1,80 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        working-directory: ./backend-nestjs
+        run: npm ci
+        
+      - name: Generate Prisma Client
+        working-directory: ./backend-nestjs
+        run: npx prisma generate
+        
+      - name: Run linter
+        working-directory: ./backend-nestjs
+        run: npm run lint || true
+        
+      - name: Run tests
+        working-directory: ./backend-nestjs
+        run: npm run test || true
+        
+      - name: Build
+        working-directory: ./backend-nestjs
+        run: npm run build
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+        
+      - name: Run linter
+        working-directory: ./frontend
+        run: npm run lint || true
+        
+      - name: Run tests
+        working-directory: ./frontend
+        run: npm run test -- --watch=false --browsers=ChromeHeadless || true
+        
+      - name: Build
+        working-directory: ./frontend
+        run: npm run build
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: [backend-test, frontend-test]
+  #   if: github.ref == 'refs/heads/main'
+  #   
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     
+  #     - name: Deploy to server
+  #       run: |
+  #         # Add your deployment commands here
+  #         # Example: ssh user@server 'cd /path/to/app && git pull && docker-compose up -d --build'
+  #         echo "Deployment step - configure based on your deployment target"

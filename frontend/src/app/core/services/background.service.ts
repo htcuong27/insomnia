@@ -12,8 +12,8 @@ export class BackgroundService {
     isRealTimeMode = signal(false);
 
     // Theme colors
-    private readonly dayGradient = 'linear-gradient(to bottom right, #60a5fa, #3b82f6)';
-    private readonly nightGradient = 'linear-gradient(to bottom right, #0f172a, #1e293b)';
+    private readonly dayGradient = 'linear-gradient(to bottom right, #fafafa, #e4e4e7)'; // Zinc-50 to Zinc-200
+    private readonly nightGradient = 'linear-gradient(to bottom right, #09090b, #18181b)'; // Zinc-950 to Zinc-900
     currentGradient = signal(this.nightGradient);
 
     private weatherService = inject(WeatherService);

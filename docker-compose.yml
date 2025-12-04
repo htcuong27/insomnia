@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: insomnia-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: insomnia
+    networks:
+      - insomnia-network
+
+  backend:
+    build:
+      context: ./backend-nestjs
+      dockerfile: Dockerfile
+    container_name: insomnia-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017/insomnia
+      PORT: 3000
+      NODE_ENV: production
+      # Add other env vars from .env file or pass them at runtime
+    env_file:
+      - ./backend-nestjs/.env
+    networks:
+      - insomnia-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: insomnia-frontend
+    restart: unless-stopped
+    ports:
+      - "4200:80"
+    networks:
+      - insomnia-network
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: insomnia-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - insomnia-network
+
+volumes:
+  mongodb_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  insomnia-network:
+    driver: bridge
