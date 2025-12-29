@@ -1,8 +1,40 @@
-<div class="login-container">
-    <div class="login-card">
-        <h1>Welcome Back</h1>
-        <p>Sign in to continue your focus journey</p>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-transparent py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-xl p-8 shadow-2xl border border-white border-opacity-30
+               dark:bg-gray-800 dark:bg-opacity-20 dark:border-gray-700 dark:border-opacity-30">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 drop-shadow-md
+                       dark:text-white">
+                Sign in to your account
+            </h2>
+        </div>
+        <form class="mt-8 space-y-6" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="rounded-md shadow-sm space-y-4">
+                <div>
+                    <label for="username" class="sr-only">Username</label>
+                    <input id="username" formControlName="username" type="text" required
+                        class="appearance-none relative block w-full px-3 py-2 border border-gray-300 bg-gray-50 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:z-10 sm:text-sm backdrop-filter backdrop-blur-sm transition-all duration-300
+                               dark:border-gray-700 dark:bg-gray-700 dark:bg-opacity-20 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white" placeholder="Username">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" formControlName="password" type="password" required
+                        class="appearance-none relative block w-full px-3 py-2 border border-gray-300 bg-gray-50 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:z-10 sm:text-sm backdrop-filter backdrop-blur-sm transition-all duration-300
+                               dark:border-gray-700 dark:bg-gray-700 dark:bg-opacity-20 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white" placeholder="Password">
+                </div>
+            </div>
 
-        <div id="googleBtn" class="google-btn-wrapper"></div>
+            <div *ngIf="error"
+                class="text-red-700 text-sm text-center font-medium bg-red-100 rounded p-2 border border-red-300
+                       dark:text-red-200 dark:bg-red-900 dark:bg-opacity-20 dark:border-red-700 dark:border-opacity-30">
+                {{ error }}
+            </div>
+
+            <div>
+                <button type="submit" [disabled]="!loginForm.valid" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:opacity-50 transition-all duration-300 shadow-lg
+                           dark:bg-white dark:text-black dark:hover:bg-gray-200 dark:focus:ring-white">
+                    Sign in
+                </button>
+            </div>
+        </form>
     </div>
 </div>

@@ -13,35 +13,10 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a routerLink="/home" routerLinkActive="text-black dark:text-white font-medium"
-                        [routerLinkActiveOptions]="{exact: false}"
+                    @for (item of navItems(); track item.path) {
+                    <a [routerLink]="item.path" routerLinkActive="text-black dark:text-white font-medium"
                         class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Home
-                    </a>
-                    <a routerLink="/projects" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Projects
-                    </a>
-                    <a routerLink="/resume" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Resume
-                    </a>
-                    <a routerLink="/blog" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Blog
-                    </a>
-                    <a routerLink="/contact" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Contact
-                    </a>
-                    <a routerLink="/pomodoro" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Pomodoro
-                    </a>
-                    @if (authService.isAdmin()) {
-                    <a routerLink="/admin" routerLinkActive="text-black dark:text-white font-medium"
-                        class="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors">
-                        Admin
+                        {{ item.label }}
                     </a>
                     }
                 </div>
@@ -90,7 +65,7 @@
                     </button>
 
                     <!-- User Menu -->
-                    @if (authService.isAuthenticated()) {
+                    <!-- @if (authService.isAuthenticated()) {
                     <div class="flex items-center space-x-2">
                         @if (authService.currentUser()?.photoURL) {
                         <img [src]="authService.currentUser()?.photoURL || ''" alt="User" class="w-8 h-8 rounded-full">
@@ -105,7 +80,7 @@
                         class="px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:opacity-90 transition-opacity">
                         Sign In
                     </button>
-                    }
+                    } -->
                 </div>
             </div>
         </div>

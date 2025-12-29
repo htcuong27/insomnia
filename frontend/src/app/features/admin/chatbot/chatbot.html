@@ -1,0 +1,270 @@
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-white">Chatbot Management</h1>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-6">
+        <!-- Active Sessions - Left Panel -->
+        <div class="col-span-3 bg-[#1a2332] rounded-2xl border border-gray-800">
+            <div class="p-6 border-b border-gray-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white">Active Sessions</h3>
+                    <span class="px-3 py-1 bg-blue-600 text-white rounded-lg text-xs font-semibold">12 Live</span>
+                </div>
+            </div>
+            <div class="p-4 space-y-2">
+                @for (session of activeSessions; track session.id) {
+                <div class="flex items-center gap-3 p-3 rounded-xl hover:bg-[#0f1419] transition-colors cursor-pointer"
+                    [class.bg-[#0f1419]]="session.id === 1">
+                    <div class="relative">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm">
+                            {{ session.avatar }}
+                        </div>
+                        @if (session.online) {
+                        <span
+                            class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-[#1a2332] rounded-full"></span>
+                        }
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-1">
+                            <div class="text-sm font-medium text-white truncate">{{ session.name }}</div>
+                            <div class="text-xs text-gray-400">{{ session.time }}</div>
+                        </div>
+                        <div class="text-xs text-gray-400 truncate">{{ session.message }}</div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="p-4 border-t border-gray-800">
+                <button
+                    class="w-full py-2 text-blue-500 hover:text-blue-400 text-sm font-medium flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    View Archived Chats
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Window - Center Panel -->
+        <div class="col-span-6 bg-[#1a2332] rounded-2xl border border-gray-800 flex flex-col">
+            <!-- Chat Header -->
+            <div class="p-6 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                        {{ currentChat.user.avatar }}
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-lg font-bold text-white">{{ currentChat.user.name }}</div>
+                        <div class="text-sm text-gray-400 flex items-center gap-2">
+                            <span class="flex items-center gap-1">
+                                <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                {{ currentChat.user.status }}
+                            </span>
+                        </div>
+                    </div>
+                    <button
+                        class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors">
+                        Take Over
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div class="flex-1 p-6 space-y-4 overflow-y-auto">
+                @for (message of currentChat.messages; track $index) {
+                @if (message.type === 'bot') {
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="text-xs text-gray-400 mb-1">AI Assistant</div>
+                        <div class="bg-[#0f1419] rounded-2xl rounded-tl-none p-4 text-white text-sm">
+                            {{ message.text }}
+                        </div>
+                        <div class="text-xs text-gray-500 mt-1">{{ message.time }}</div>
+                    </div>
+                </div>
+                } @else {
+                <div class="flex gap-3 justify-end">
+                    <div class="flex-1 flex flex-col items-end">
+                        <div class="text-xs text-gray-400 mb-1">{{ currentChat.user.name }}</div>
+                        <div class="bg-blue-600 rounded-2xl rounded-tr-none p-4 text-white text-sm max-w-md">
+                            {{ message.text }}
+                        </div>
+                    </div>
+                    <div
+                        class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-xs flex-shrink-0">
+                        {{ currentChat.user.avatar }}
+                    </div>
+                </div>
+                }
+                }
+            </div>
+
+            <!-- Input -->
+            <div class="p-4 border-t border-gray-800">
+                <div class="flex items-center gap-3">
+                    <button class="p-2 hover:bg-gray-800 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                        </svg>
+                    </button>
+                    <input type="text" placeholder="Type a message..."
+                        class="flex-1 px-4 py-2 bg-[#0f1419] border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition-colors">
+                    <button class="p-2 hover:bg-gray-800 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
+                    <button
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <span>Enter to send, Shift + Enter for new line</span>
+                    <span>/canned-response</span>
+                    <span>/escalate</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bot Configuration & Stats - Right Panel -->
+        <div class="col-span-3 space-y-6">
+            <!-- Bot Configuration -->
+            <div class="bg-[#1a2332] rounded-2xl p-6 border border-gray-800">
+                <h3 class="text-lg font-bold text-white mb-4">Bot Configuration</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-sm text-gray-400 mb-2">Status</div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-white font-medium">{{ botConfig.status }}</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked>
+                                <div
+                                    class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-400 mb-2">Response Tone</div>
+                        <select
+                            class="w-full px-4 py-2 bg-[#0f1419] border border-gray-700 rounded-xl text-white focus:outline-none focus:border-blue-500">
+                            <option>{{ botConfig.responseTone }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-400 mb-2">Model Version</div>
+                        <div
+                            class="flex items-center justify-between px-4 py-2 bg-[#0f1419] border border-gray-700 rounded-xl">
+                            <span class="text-white">{{ botConfig.modelVersion }}</span>
+                            <span
+                                class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-semibold">Stable</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance -->
+            <div class="bg-[#1a2332] rounded-2xl p-6 border border-gray-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white">Performance (24h)</h3>
+                    <button class="text-blue-500 hover:text-blue-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-[#0f1419] rounded-xl p-4">
+                        <div class="text-sm text-gray-400 mb-1">Queries</div>
+                        <div class="text-2xl font-bold text-white">{{ performance.queries.value }}</div>
+                        <div class="text-xs text-green-500 mt-1">{{ performance.queries.change }}</div>
+                    </div>
+                    <div class="bg-[#0f1419] rounded-xl p-4">
+                        <div class="text-sm text-gray-400 mb-1">Avg Time</div>
+                        <div class="text-2xl font-bold text-white">{{ performance.avgTime.value }}</div>
+                        <div class="text-xs text-green-500 mt-1">{{ performance.avgTime.change }}</div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm mb-2">
+                        <span class="text-gray-400">Resolution Rate</span>
+                        <span class="text-white font-semibold">{{ performance.resolutionRate.value }}%</span>
+                    </div>
+                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-blue-500 rounded-full" [style.width.%]="performance.resolutionRate.value">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex items-center justify-between text-sm mb-2">
+                        <span class="text-gray-400">Sentiment Score</span>
+                        <span class="text-white font-semibold">{{ performance.sentimentScore.value }}/5</span>
+                    </div>
+                    <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-purple-500 rounded-full"
+                            [style.width.%]="(performance.sentimentScore.value / performance.sentimentScore.max) * 100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Base -->
+            <div class="bg-[#1a2332] rounded-2xl p-6 border border-gray-800">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold text-white">Knowledge Base</h3>
+                    <button class="text-blue-500 hover:text-blue-400 text-sm font-medium">Manage</button>
+                </div>
+                <div class="space-y-3">
+                    @for (item of knowledgeBase; track $index) {
+                    <div class="flex items-center gap-3 p-3 bg-[#0f1419] rounded-xl">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                            [class.bg-blue-500/10]="item.color === 'blue'"
+                            [class.bg-orange-500/10]="item.color === 'orange'"
+                            [class.bg-purple-500/10]="item.color === 'purple'">
+                            <svg class="w-5 h-5" [class.text-blue-500]="item.color === 'blue'"
+                                [class.text-orange-500]="item.color === 'orange'"
+                                [class.text-purple-500]="item.color === 'purple'" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                @if (item.icon === 'document') {
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                } @else if (item.icon === 'help') {
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                } @else {
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                }
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-sm font-medium text-white truncate">{{ item.title }}</div>
+                            <div class="text-xs text-gray-400">{{ item.subtitle }}</div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { BlogsService } from './blogs.service';
 import { CreateBlogDto, UpdateBlogDto } from './dto/blog.dto';
-import { FirebaseAuthGuard } from '../../auth/firebase-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { UserRole } from '@prisma/client';
@@ -35,21 +35,21 @@ export class BlogsController {
     }
 
     @Post()
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     create(@Request() req, @Body() createBlogDto: CreateBlogDto) {
-        return this.blogsService.create(req.user.id, createBlogDto);
+        return this.blogsService.create(req.user.userId, createBlogDto);
     }
 
     @Put(':id')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
         return this.blogsService.update(id, updateBlogDto);
     }
 
     @Delete(':id')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     remove(@Param('id') id: string) {
         return this.blogsService.remove(id);

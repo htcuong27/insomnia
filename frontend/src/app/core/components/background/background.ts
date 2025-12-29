@@ -96,7 +96,7 @@ export class BackgroundComponent implements AfterViewInit, OnDestroy {
             this.currentEffect.update(this.mouse);
             this.currentEffect.draw(this.ctx);
         }
-        this.animationFrameId = requestAnimationFrame(() => this.animate());
+        // this.animationFrameId = requestAnimationFrame(() => this.animate());
     }
 }
 

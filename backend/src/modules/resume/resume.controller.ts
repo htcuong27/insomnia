@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ResumeService } from './resume.service';
-import { FirebaseAuthGuard } from '../../auth/firebase-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { UserRole } from '@prisma/client';
@@ -23,7 +23,7 @@ export class ResumeController {
     }
 
     @Post('upload')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     @UseInterceptors(FileInterceptor('file'))
     upload(@UploadedFile() file: Express.Multer.File) {

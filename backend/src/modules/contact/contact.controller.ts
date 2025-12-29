@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDto } from './dto/contact.dto';
-import { FirebaseAuthGuard } from '../../auth/firebase-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { UserRole } from '@prisma/client';
@@ -24,14 +24,14 @@ export class ContactController {
     }
 
     @Get()
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     findAll() {
         return this.contactService.findAll();
     }
 
     @Put(':id/replied')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     markAsReplied(@Param('id') id: string) {
         return this.contactService.markAsReplied(id);

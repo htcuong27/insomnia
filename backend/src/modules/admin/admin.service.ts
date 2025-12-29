@@ -36,19 +36,16 @@ export class AdminService {
             services: {
                 database: {
                     connected: dbConnected,
-                    url: this.configService.get('DATABASE_URL')?.replace(/\/\/.*@/, '//***@') || 'Not configured',
+                    link: this.configService.get('DATABASE_URL')?.replace(/\/\/.*@/, '//***@') || 'Not configured',
                 },
                 email: {
                     connected: emailConnected,
-                    adminEmail: this.configService.get('ADMIN_EMAIL'),
+                    name: this.configService.get('ADMIN_EMAIL'),
                 },
-                firebase: {
-                    connected: true, // If app loaded, Firebase is connected
-                    projectId: this.configService.get('FIREBASE_PROJECT_ID'),
-                },
+
                 cloudinary: {
                     connected: !!this.configService.get('CLOUDINARY_CLOUD_NAME'),
-                    cloudName: this.configService.get('CLOUDINARY_CLOUD_NAME'),
+                    name: this.configService.get('CLOUDINARY_CLOUD_NAME'),
                 },
             },
             stats: {

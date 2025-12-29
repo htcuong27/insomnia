@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "../../../../core/services/http.service";
+import { Observable } from "rxjs";
+import { DashboardData } from "../models/dashboard";
 
 @Injectable({
     providedIn: 'root'
@@ -7,7 +9,7 @@ import { HttpService } from "../../../../core/services/http.service";
 export class DashboardService {
     constructor(private http: HttpService) { }
 
-    getDashboardData() {
-        return this.http.get('/admin/dashboard');
+    getDashboardData(): Observable<DashboardData> {
+        return this.http.get<DashboardData>('admin/dashboard');
     }
 }

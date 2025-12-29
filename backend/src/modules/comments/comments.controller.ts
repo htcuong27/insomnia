@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/comment.dto';
-import { FirebaseAuthGuard } from '../../auth/firebase-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../../auth/roles.guard';
 import { Roles } from '../../auth/roles.decorator';
 import { UserRole } from '@prisma/client';
@@ -27,20 +27,20 @@ export class CommentsController {
     }
 
     @Post()
-    @UseGuards(FirebaseAuthGuard)
+    @UseGuards(JwtAuthGuard)
     create(@Request() req, @Body() createCommentDto: CreateCommentDto) {
-        return this.commentsService.create(req.user.id, createCommentDto);
+        return this.commentsService.create(req.user.userId, createCommentDto);
     }
 
     @Put(':id/approve')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     approve(@Param('id') id: string) {
         return this.commentsService.approve(id);
     }
 
     @Delete(':id')
-    @UseGuards(FirebaseAuthGuard, RolesGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles(UserRole.ADMIN)
     remove(@Param('id') id: string) {
         return this.commentsService.remove(id);

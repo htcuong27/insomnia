@@ -8,7 +8,7 @@ export class RolesGuard implements CanActivate {
 
     canActivate(context: ExecutionContext): boolean {
         const requiredRoles = this.reflector.get<UserRole[]>('roles', context.getHandler());
-
+        console.log({ requiredRoles })
         if (!requiredRoles) {
             return true;
         }

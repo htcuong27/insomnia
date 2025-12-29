@@ -1,49 +1,42 @@
-import { Component, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service';
-
-declare const google: any;
 
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './login.html',
     styleUrl: './login.scss'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+    loginForm: FormGroup;
+    error: string = '';
+
     constructor(
         private authService: AuthService,
-        private router: Router,
-        private ngZone: NgZone
-    ) { }
-
-    ngOnInit() {
-        // Initialize Google Sign-In
-        // Use a timeout to ensure the script is loaded
-        setTimeout(() => {
-            if (typeof google !== 'undefined') {
-                google.accounts.id.initialize({
-                    client_id: 'YOUR_GOOGLE_CLIENT_ID_HERE', // Replace with actual Client ID
-                    callback: (response: any) => this.handleCredentialResponse(response)
-                });
-                google.accounts.id.renderButton(
-                    document.getElementById('googleBtn'),
-                    { theme: 'outline', size: 'large', width: '250' }
-                );
-            }
-        }, 1000);
+        private fb: FormBuilder,
+        private router: Router
+    ) {
+        this.loginForm = this.fb.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required]
+        });
     }
 
-    handleCredentialResponse(response: any) {
-        this.ngZone.run(() => {
-            this.authService.googleLogin(response.credential).subscribe({
+    onSubmit() {
+        if (this.loginForm.valid) {
+            this.authService.login(this.loginForm.value).subscribe({
                 next: () => {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/admin']);
                 },
-                error: (err) => console.error('Login failed', err)
+                error: (err) => {
+                    this.error = 'Invalid username or password';
+                    console.error('Login failed', err);
+                }
             });
-        });
+        }
     }
 }

@@ -8,21 +8,21 @@ import {
 } from '@nestjs/common';
 import { PomodoroService } from './pomodoro.service';
 import { CreatePomodoroSessionDto } from './dto/pomodoro.dto';
-import { FirebaseAuthGuard } from '../../auth/firebase-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('pomodoro')
 export class PomodoroController {
     constructor(private readonly pomodoroService: PomodoroService) { }
 
     @Post('session')
-    @UseGuards(FirebaseAuthGuard)
+    @UseGuards(JwtAuthGuard)
     createSession(@Request() req, @Body() createSessionDto: CreatePomodoroSessionDto) {
-        return this.pomodoroService.createSession(req.user.id, createSessionDto);
+        return this.pomodoroService.createSession(req.user.userId, createSessionDto);
     }
 
     @Get('stats')
-    @UseGuards(FirebaseAuthGuard)
+    @UseGuards(JwtAuthGuard)
     getUserStats(@Request() req) {
-        return this.pomodoroService.getUserStats(req.user.id);
+        return this.pomodoroService.getUserStats(req.user.userId);
     }
 }
